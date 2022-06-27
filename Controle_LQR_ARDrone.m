@@ -1,10 +1,10 @@
-% ======================================================
-% === PROJETO DE CONTROLE CONSIDERANDO 4 SUBSISTEMAS ===
-% ======================================================
+% =========================================================================
+% ============ PROJETO DE CONTROLE COM SISTEMA DESACOPLADO ================
+% =========================================================================
 clear all;
 clc;
 close all;
-%% Tipo de Trajetoria
+%% Tipo de Trajetória
 % circulo = 1 /// oito inclinado = 0
 tipo = 1;
 if tipo == 1
@@ -14,7 +14,7 @@ else
     chave_circular = 0;
     chave_oito = 1;
 end
-%% ==========> Parametros do AR.Drone 2.0 <============
+%% ==========> Parametros com Kfi e Ktheta = 1.5 <============
 Cx = 0.3;
 Cy = 0.1;
 g = 9.8;
@@ -33,187 +33,139 @@ wtheta = 4.47;
 zetafi = 0.5;
 zetatheta = 0.5;
 
-%% PARAMETROS INCERTOS
-%% Limite Inferior
-tz1 = 0.4;
-tpsi1 = 0.3;
-Cx1 = 0.3;
-Cy1 = 0.1;
-%% Limite Superior
-tz2 = 0.45;
-tpsi2 = 0.4;
-Cx2 = 0.9;
-Cy2 = 0.5;
-
-
-tz2 = 0.8;
-tpsi2 = 0.4;
-Cx2 = 1;
-Cy2 = 3;
-
-
+%% Parâmetros LIMITE INFERIOR
+% zmax = 1;
+% psimax = 1.74;
+% fimax = 0.26;
+% thetamax = 0.26;
+% 
+% %Limite superior
+% zmax = 2;
+% psimax = 5.15;
+% fimax = 0.45;
+% thetamax = 0.52;
 %% ===============================================
 %  ========== SISTEMA LINEARIZADO ================
 %  ===============================================
 s = tf([1 0],[1]);
 
-%% VARIAVEL Z
-Az1 = [0 1;
-      0 -1/tz1];
-Az2 = [0 1;
-      0 -1/tz2];
-  
-Bz1 = [0;
-      (Kz*zmax)/(tz1)];
-Bz2 = [0;
-      (Kz*zmax)/(tz2)];
-Cz = [1 0];
-Dz = 0;
-
-Az_a1 = [Az1 zeros([size(Az1,1),size(Bz1,2)]);-Cz zeros(size(Cz,1))];
-Az_a2 = [Az2 zeros([size(Az2,1),size(Bz1,2)]);-Cz zeros(size(Cz,1))];
-Az_a=[];
-Az_a(:,:,1) = Az_a1;
-Az_a(:,:,2) = Az_a2;
-
-Bz_a1 = [Bz1;-Dz];
-Bz_a2 = [Bz2;-Dz];
-Bz_a=[];
-Bz_a(:,:,1) = Bz_a1;
-Bz_a(:,:,2) = Bz_a2;
-
-Cz_a = [Cz zeros(size(Cz,1))];
-%% VARIAVEL PSI
-Apsi1 = [0 1;
-        0 -1/tpsi1];
-Apsi2 = [0 1;
-        0 -1/tpsi2];    
-    
-Bpsi1 = [0;
-       (Kpsi*psimax)/(tpsi1)];
-Bpsi2 = [0;
-       (Kpsi*psimax)/(tpsi2)];   
-Cpsi = [1 0];
-Dpsi = 0;
-   
-Apsi_a1 = [Apsi1 zeros([size(Apsi1,1),size(Bpsi1,2)]);-Cpsi zeros(size(Cpsi,1))];
-Apsi_a2 = [Apsi2 zeros([size(Apsi2,1),size(Bpsi1,2)]);-Cpsi zeros(size(Cpsi,1))];
-Apsi_a=[];
-Apsi_a(:,:,1) = Apsi_a1;
-Apsi_a(:,:,2) = Apsi_a2;
-
-Bpsi_a1 = [Bpsi1;-Dpsi];
-Bpsi_a2 = [Bpsi2;-Dpsi];
-Bpsi_a=[];
-Bpsi_a(:,:,1) = Bpsi_a1;
-Bpsi_a(:,:,2) = Bpsi_a2;
-
-Cpsi_a = [Cpsi zeros(size(Cpsi,1))];
-%% VARIAVEL FI-Y 
-Afi_y1 = [0 1 0 0;
+%% VARIÁVEL FI-Y 
+Afi_y = [0 1 0 0;
        -wfi^2 -2*zetafi*wfi 0 0;
          0 0 0 1;
-         -g 0 0 -Cy1];
-Afi_y2 = [0 1 0 0;
-       -wfi^2 -2*zetafi*wfi 0 0;
-         0 0 0 1;
-         -g 0 0 -Cy2];
-     
-Bfi_y = [0;Kfi*fimax*wfi^2;0;0];
-    
+         -g 0 0 -Cy];
+Bfi_y = [0;
+        Kfi*fimax*wfi^2;
+        0;
+        0];
 Cfi_y = [0 0 1 0];
 Dfi_y = [0];
     
-Afi_y_a1 = [Afi_y1 zeros([size(Afi_y1,1),size(Bfi_y,2)]);
-          -Cfi_y zeros(size(Cfi_y,1))];
-Afi_y_a2 = [Afi_y2 zeros([size(Afi_y2,1),size(Bfi_y,2)]);
-          -Cfi_y zeros(size(Cfi_y,1))];
-
-Afi_y_a=[];
-Afi_y_a(:,:,1) = Afi_y_a1;
-Afi_y_a(:,:,2) = Afi_y_a2;
- 
+Afi_y_a = [Afi_y zeros([size(Afi_y,1),size(Bfi_y,2)]);-Cfi_y zeros(size(Cfi_y,1))];
 Bfi_y_a = [Bfi_y;-Dfi_y];
-
 Cfi_y_a = [Cfi_y zeros(size(Cfi_y,1))];
-%% VARIAVEL THETA-X
-Atheta_x1 = [0 1 0 0;
-       -wtheta^2 -2*zetatheta*wtheta 0 0;
-          0 0 0 1;
-          g 0 0 -Cx1];
-Atheta_x2 = [0 1 0 0;
-       -wtheta^2 -2*zetatheta*wtheta 0 0;
-          0 0 0 1;
-          g 0 0 -Cx2];
-      
-Btheta_x = [0;Ktheta*thetamax*wtheta^2;0;0];
+Dfi_y_a = [0];
 
+Gfi_y = ss(Afi_y_a,Bfi_y_a,Cfi_y_a,Dfi_y_a);
+%% VARIÁVEL THETA-X
+Atheta_x = [0 1 0 0;
+       -wtheta^2 -2*zetatheta*wtheta 0 0;
+          0 0 0 1;
+          g 0 0 -Cx];
+Btheta_x = [0;
+        Ktheta*thetamax*wtheta^2;
+          0;
+          0];
 Ctheta_x = [0 0 1 0];
 Dtheta_x = [0];
 
-Atheta_x_a1 = [Atheta_x1 zeros([size(Atheta_x1,1),size(Btheta_x,2)]);
+Atheta_x_a = [Atheta_x zeros([size(Atheta_x,1),size(Btheta_x,2)]);
               -Ctheta_x zeros(size(Ctheta_x,1))];
-Atheta_x_a2 = [Atheta_x2 zeros([size(Atheta_x2,1),size(Btheta_x,2)]);
-              -Ctheta_x zeros(size(Ctheta_x,1))];
-
-Atheta_x_a=[];
-Atheta_x_a(:,:,1) = Atheta_x_a1;
-Atheta_x_a(:,:,2) = Atheta_x_a2;          
-          
 Btheta_x_a = [Btheta_x;-Dtheta_x];
-
 Ctheta_x_a = [Ctheta_x zeros(size(Ctheta_x,1))];
+Dtheta_x_a = [0];
+
+Gtheta_x = ss(Atheta_x_a,Btheta_x_a,Ctheta_x_a,Dtheta_x_a);
+%% VARIÁVEL Z
+Az = [0 1;
+      0 -1/tz];
+Bz = [0;
+      (Kz*zmax)/(tz)];
+Cz = [1 0];
+Dz = 0;
+
+Az_a = [Az zeros([size(Az,1),size(Bz,2)]);
+        -Cz zeros(size(Cz,1))];
+Bz_a = [Bz;-Dz];
+Cz_a = [Cz zeros(size(Cz,1))];
+Dz_a = 0;
+
+Gz = ss(Az_a,Bz_a,Cz_a,Dz_a);
+%% VARIÁVEL PSI
+Apsi = [0 1;
+        0 -1/tpsi];
+Bpsi = [0;
+       (Kpsi*psimax)/(tpsi)];
+Cpsi = [1 0];
+Dpsi = 0;
+   
+Apsi_a = [Apsi zeros([size(Apsi,1),size(Bpsi,2)]);
+          -Cpsi zeros(size(Cpsi,1))];
+Bpsi_a = [Bpsi;-Dpsi];
+Cpsi_a = [Cpsi zeros(size(Cpsi,1))];
+Dpsi_a = 0;
+
+Gpsi = ss(Apsi_a,Bpsi_a,Cpsi_a,Dpsi_a);
 %% ===============================================
-%%  ========= PROJETO DOS CONTROLADORES ===========
-%%  ===============================================
-%% ================ MATRIZES DE PONDERACAO Q e R ====================
-% VARIAVEL Z
+%  ========= PROJETO DOS CONTROLADORES ===========
+%  ===============================================
+%% ================ MATRIZES DE PONDERAÇÃO Q e R ====================
+% VARIÁVEL Z
 Qz = [1 0 0;
       0 1 0;
-      0 0 120]; %120
-Rz = 1; %17
-% VARIAVEL PSI
+      0 0 120];
+Rz = 1;
+% VARIÁVEL PSI
 Qpsi = [1 0 0;
         0 1 0;
-        0 0 0.01]; %1
-Rpsi = 24.5; %15
-% VARIAVEL FI-Y
+        0 0 0.01];
+Rpsi = 24.5;
+% VARIÁVEL FI-Y
 Qfi_y = [1 0 0 0 0;
          0 1 0 0 0;
          0 0 1 0 0;
          0 0 0 1 0;
-         0 0 0 0 240];%240
-Rfi_y = 0.1;%0.1
-% VARIAVEL THETA-X
+         0 0 0 0 240]; %240
+Rfi_y = 0.1;
+% VARIÁVEL THETA-X
 Qtheta_x = [1 0 0 0 0;
             0 1 0 0 0;
             0 0 1 0 0;
             0 0 0 1 0;
             0 0 0 0 1000];
 Rtheta_x = 3;
-%% CALCULO DO GANHO K AUMENTADO - VIA LMI
-disp('CONTROLE VIA LMI')
+%% CÁLCULO DOS GANHOS Ks AUMENTADOS - VIA LMI
+
 %Estado inicial
 x0 = [1 1 1]';
-
-alfa = 0; beta = 3; theta = 45; %Alocacao de Polos
-K_z2 = lqrrobusto(Az_a,Bz_a,Cz_a,Dz,Qz,Rz,x0,alfa,beta,theta)
-
-alfa = 0.4; beta = 4; theta = 60; %Alocacao de Polos
-K_psi2 = lqrrobusto(Apsi_a,Bpsi_a,Cpsi_a,Dpsi,Qpsi,Rpsi,x0,alfa,beta,theta)
-
-%Estado inicial
+%% Z
+alfa = 0; beta = 3; theta = 43; %Alocação de Polos
+disp('CONTROLE LQR')
+K_z2 = lqrvialmi(Gz,Qz,Rz,x0,alfa,beta,theta)
+%% PSI
+alfa = 0.4; beta = 4; theta = 60; %Alocação de Polos
+K_psi2 = lqrvialmi(Gpsi,Qpsi,Rpsi,x0,alfa,beta,theta)
+%% Estado inicial
 x0 = [1 1 1 1 1]';
-
-alfa = 0.05; beta = 22; theta = 85; %Alocacao de Polos
-Kfi_y2 = lqrrobusto(Afi_y_a,Bfi_y_a,Cfi_y_a,Dfi_y,Qfi_y,Rfi_y,x0,alfa,beta,theta)
-
-alfa = 0.05; beta = 22; theta = 85; %Alocacao de Polos
-Ktheta_x2 = lqrrobusto(Atheta_x_a,Btheta_x_a,Ctheta_x_a,Dtheta_x,Qtheta_x,Rtheta_x,x0,alfa,beta,theta)
-
+%% FI
+alfa = 0.05; beta = 22; theta = 85; %Alocação de Polos
+Kfi_y2 = lqrvialmi(Gfi_y,Qfi_y,Rfi_y,x0,alfa,beta,theta)
+%% THETA
+alfa = 0.05; beta = 22; theta = 85; %Alocação de Polos
+Ktheta_x2 = lqrvialmi(Gtheta_x,Qtheta_x,Rtheta_x,x0,alfa,beta,theta)
 %% =============================================================
-%  ===== GANHO DE REALIMENTACAO DE ESTADO E INTEGRAL ===========
-%  =============================================================
+%%  ===== GANHO DE REALIMENTAÇÃO DE ESTADO E INTEGRAL ===========
+%%  =============================================================
 %% Z
 Ki_z = K_z2(:,3);
 K_z = K_z2(:,1:2);
@@ -226,28 +178,8 @@ Kfi_y = Kfi_y2(:,1:4);
 %% THETA-X
 Ki_theta_x = Ktheta_x2(:,5);
 Ktheta_x = Ktheta_x2(:,1:4);
-%% PARAMETROS VARIAVEIS
-%% Limite Inferior
-tz = tz1;
-tpsi = tpsi1;
-Cx = Cx1;
-Cy = Cy1;
-%% Limite Superior
-tz = tz2;
-tpsi = tpsi2;
-Cx = Cx2;
-Cy = Cy2;
-
-%% Valor escolhido
-tz = 0.4;
-tpsi = 0.3;
-Cx = 0.3;
-Cy = 0.1;
-
-
 %% Executar arquivo .slx
 sim('Malha_de_Controle_Drone')
-
 %% =============================================================
 %% ================ SISTEMA EM MALHA FECHADA ===================
 %% =============================================================
@@ -255,40 +187,40 @@ sim('Malha_de_Controle_Drone')
 fontsize = 20;
 fontsize2 = 18;
 %% Z
-Af_z = [Az1+Bz1*K_z Bz1*Ki_z;
+Af_z = [Az+Bz*K_z Bz*Ki_z;
         -(Cz+Dz*K_z) -Dz*Ki_z];
-Bf_z = [zeros(size(Az1,1),1);eye(1,1)];
+Bf_z = [zeros(size(Az,1),1);eye(1,1)];
 Cf_z = [Cz+Dz*Kz Dz*Ki_z];
 Df_z = Dz;
 
-SYSz = ss(Af_z,Bf_z,Cf_z,Df_z);
+SYSz = ss(Af_z,Bf_z,Cf_z,Df_z)
 polosZ = eig(Af_z)
 %% PSI
-Af_psi = [Apsi1+Bpsi1*K_psi Bpsi1*Ki_psi;
+Af_psi = [Apsi+Bpsi*K_psi Bpsi*Ki_psi;
         -(Cpsi+Dpsi*K_psi) -Dpsi*Ki_psi];
-Bf_psi = [zeros(size(Apsi1,1),1);eye(1,1)];
+Bf_psi = [zeros(size(Apsi,1),1);eye(1,1)];
 Cf_psi = [Cpsi+Dpsi*Kpsi Dpsi*Ki_psi];
 Df_psi = Dpsi;
 
-SYSpsi = ss(Af_psi,Bf_psi,Cf_psi,Df_psi);
+SYSpsi = ss(Af_psi,Bf_psi,Cf_psi,Df_psi)
 polosPSI = eig(Af_psi)
 %% FI
-Af_fi = [Afi_y1+Bfi_y*Kfi_y Bfi_y*Ki_fi_y;
+Af_fi = [Afi_y+Bfi_y*Kfi_y Bfi_y*Ki_fi_y;
         -(Cfi_y+Dfi_y*Kfi_y) -Dfi_y*Ki_fi_y];
-Bf_fi = [zeros(size(Afi_y1,1),1);eye(1,1)];
+Bf_fi = [zeros(size(Afi_y,1),1);eye(1,1)];
 Cf_fi = [Cfi_y+Dfi_y*Kfi_y Dfi_y*Ki_fi_y];
 Df_fi = Dfi_y;
 
-SYSfi = ss(Af_fi,Bf_fi,Cf_fi,Df_fi);
+SYSfi = ss(Af_fi,Bf_fi,Cf_fi,Df_fi)
 polosFI = eig(Af_fi)
 %% THETA
-Af_theta = [Atheta_x1+Btheta_x*Ktheta_x Btheta_x*Ki_theta_x;
+Af_theta = [Atheta_x+Btheta_x*Ktheta_x Btheta_x*Ki_theta_x;
         -(Ctheta_x+Dtheta_x*Ktheta_x) -Dtheta_x*Ki_theta_x];
-Bf_theta = [zeros(size(Atheta_x1,1),1);eye(1,1)];
+Bf_theta = [zeros(size(Atheta_x,1),1);eye(1,1)];
 Cf_theta = [Ctheta_x+Dtheta_x*Ktheta_x Dtheta_x*Ki_theta_x];
 Df_theta = Dtheta_x;
 
-SYStheta = ss(Af_theta,Bf_theta,Cf_theta,Df_theta);
+SYStheta = ss(Af_theta,Bf_theta,Cf_theta,Df_theta)
 polosTHETA = eig(Af_theta)
 
 %% ====================== PZMAP =============================
@@ -337,7 +269,6 @@ hm(3).LineWidth = 5;                      % ‘Pole’ Marker
 
 legend('Subsistema z','Subsistema \psi','Subsistema \phi','Subsistema \theta')
 
-
 %% =============================================================
 %%  ================== RESULTADOS DA SIMULAÇÃO ==================
 %%  =============================================================
@@ -383,8 +314,8 @@ lgd.FontSize = fontsize2;
 grid on
 axis([-1.5 1.5 -1.5 1.5 0 2.2]) %Ajuste do Gráfico
 % ==================================================================
+
 %% TEMPORÁRIO
-%return
 %close all
 
 
