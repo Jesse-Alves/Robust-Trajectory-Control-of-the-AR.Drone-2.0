@@ -87,7 +87,8 @@ Currently, automatic trajectory control for quad-rotor Unmanned Aerial Vehicle (
 
 
 ### Built With
-[![MATLAB](https://img.shields.io/badge/MATLAB-0076A8?style=for-the-badge&logo=mathworks&logoColor=white)](https://www.mathworks.com/)
+* [![MATLAB](https://img.shields.io/badge/MATLAB-0076A8?style=for-the-badge&logo=mathworks&logoColor=white)](https://www.mathworks.com/)
+* [![Simulink](https://img.shields.io/badge/Simulink-4E148C?style=for-the-badge&logo=MathWorks&logoColor=white)](https://www.mathworks.com/products/simulink.html)
 
 <!-- 
 * [![Next][Next.js]][Next-url]
@@ -106,16 +107,17 @@ Currently, automatic trajectory control for quad-rotor Unmanned Aerial Vehicle (
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+This is a control design project, where the mathematical model of the UAV is described in the thesis work, as well as the details of the methodology and programming of the codes.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+All this project was built using Matlab and Simulink tool.
+<!--This is an example of how to list things you need to use the software and how to install them.
 * npm
   ```sh
   npm install npm@latest -g
   ```
+  -->
 
 ### Installation
 
