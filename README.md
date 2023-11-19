@@ -28,7 +28,7 @@
     <img src="images/logo.png" alt="Logo" width="80" height="123">
   </a>
 
-  <h2 align="center">Robust Trajectory Control of an Unmanned Aerial Vehicle</h2>
+  <h1 align="center">Robust Trajectory Control of an Unmanned Aerial Vehicle</h1>
 
   <p align="center">
     <a href="https://github.com/Jesse-Alves?tab=repositories"><strong>View all repositories  »</strong></a>
