@@ -75,8 +75,10 @@
 <div align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
     <img src="images/screenshot.jpg" alt="Logo" width="700" height="350">
-  </a>
+  </a
+    <br />
 </div>
+
 
 Currently, automatic trajectory control for quad-rotor Unmanned Aerial Vehicle (UAV) has increased every day. In this context, it is necessary to understand the dynamics of this robot, represent it by a precise mathematical model and design a good controller, capable of guaranteeing stability and performance to perform various tasks. Faced with this demand, the present project studies the AR.Drone 2.0 UAV type, briefly approaching the history of its development, analyzing the basic concepts of its operation, developing the modeling of the system and designing two controllers: the LQR controller with pole allocation and the LQR Robust controller with pole allocation. Finally, this work analyzes and discusses the robustness of the different techniques. The development of these control techniques is carried out using linear matrix inequalities (LMIs). The algorithms are programmed with MATLAB's LMI toolbox and simulations are performed with the help of the SIMULINK tool.
 
