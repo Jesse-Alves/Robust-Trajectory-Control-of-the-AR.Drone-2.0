@@ -111,7 +111,7 @@ This is a control design project, where the mathematical model of the UAV is des
 
 ### Prerequisites
 
-All this project was built using Matlab and Simulink tool.
+All this project was built using Matlab and Simulink tool. To test the controller project into the drone non-linear system, it is important to have all those file in the same folder.
 <!--This is an example of how to list things you need to use the software and how to install them.
 * npm
   ```sh
@@ -145,9 +145,11 @@ _Below is an example of how you can instruct your audience on installing and set
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Once all the files are inside of the same folder, run the code [Controle_LQR_ARDrone.m](https://github.com/Jesse-Alves/Robust-LQR-trajectory-control-for-AR.Drone-2.0/blob/main/Controle_LQR_ARDrone.m) to test the LQR controller. And run the code to test [Controle_LQR_Robusto_Drone.m](https://github.com/Jesse-Alves/Robust-LQR-trajectory-control-for-AR.Drone-2.0/blob/main/Controle_LQR_Robusto_Drone.m) to test the LQR Robust controller.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+The drone trajectory can be selected by changing the variable "tipo" at the beginning of the code, and the drone non-linear model was programed in the simulink file. There are other auxiliar codes and functions to evaluate the controller robustness, and more details of the project can be found in the thesis paper attached.
+
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
