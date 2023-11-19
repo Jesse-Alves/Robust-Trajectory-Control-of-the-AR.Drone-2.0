@@ -70,11 +70,11 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<!--[![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
 <div align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/screenshot.jpg" alt="Logo" width="200" height="150">
+    <img src="images/screenshot.jpg" alt="Logo" width="1000" height="500">
   </a>
 </div>
 
