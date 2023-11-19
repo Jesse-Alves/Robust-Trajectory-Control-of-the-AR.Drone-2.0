@@ -72,16 +72,7 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
-
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
-
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Use the `BLANK_README.md` to get started.
+Currently, automatic trajectory control for quad-rotor Unmanned Aerial Vehicle (UAV) has increased every day. In this context, it is necessary to understand the dynamics of this robot, represent it by a precise mathematical model and design a good controller, capable of guaranteeing stability and performance to perform various tasks. Faced with this demand, the present project studies the AR.Drone 2.0 UAV type, briefly approaching the history of its development, analyzing the basic concepts of its operation, developing the modeling of the system and designing two controllers: the LQR controller with pole allocation and the LQR Robust controller with pole allocation. Finally, this work analyzes and discusses the robustness of the different techniques. The development of these control techniques is carried out using linear matrix inequalities (LMIs). The algorithms are programmed with MATLAB's LMI toolbox and simulations are performed with the help of the SIMULINK tool.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -91,6 +82,7 @@ Use the `BLANK_README.md` to get started.
 
 This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
+*[![MATLAB](https://img.shields.io/badge/MATLAB-0076A8?style=for-the-badge&logo=mathworks&logoColor=white)](https://www.mathworks.com/)
 * [![Next][Next.js]][Next-url]
 * [![React][React.js]][React-url]
 * [![Vue][Vue.js]][Vue-url]
