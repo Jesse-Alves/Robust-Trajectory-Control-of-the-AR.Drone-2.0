@@ -147,7 +147,7 @@ _Below is an example of how you can instruct your audience on installing and set
 
 Once all the files are inside of the same folder, run the code [Controle_LQR_ARDrone.m](https://github.com/Jesse-Alves/Robust-LQR-trajectory-control-for-AR.Drone-2.0/blob/main/Controle_LQR_ARDrone.m) to test the LQR controller. And run the code to test [Controle_LQR_Robusto_Drone.m](https://github.com/Jesse-Alves/Robust-LQR-trajectory-control-for-AR.Drone-2.0/blob/main/Controle_LQR_Robusto_Drone.m) to test the LQR Robust controller.
 
-The drone trajectory can be selected by changing the variable "tipo" at the beginning of the code, and the drone non-linear model was programed in the simulink file. There are other auxiliar codes and functions to evaluate the controller robustness, and more details of the project can be found in the thesis paper attached.
+The drone trajectory can be selected by changing the variable "tipo" at the beginning of the code, and the drone non-linear model was programed in the simulink file. There are other auxiliar codes and functions to evaluate the controller robustness, and more details of the project can be found in the [Thesis Paper](https://github.com/Jesse-Alves/Robust-LQR-trajectory-control-for-AR.Drone-2.0/blob/main/Thesis_Paper/Robust%20Trajectory%20Control%20of%20an%20Unmanned%20Aerial%20Vehicle.pdf) attached.
 
 
 
